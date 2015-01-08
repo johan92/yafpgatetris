@@ -1,0 +1,7 @@
+Used third-party cores/modules:
+
+  * PS/2 controller from:
+      http://www.eecg.toronto.edu/~jayar/ece241_08F/AudioVideoCores/ps2/ps2.html
+
+  * VGA time generator from DE1-SoC CD-ROM:
+      http://www.terasic.com/downloads/cd-rom/de1-soc/
