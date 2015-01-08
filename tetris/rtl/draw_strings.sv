@@ -28,8 +28,8 @@ localparam STRING_CNT        = 4;
 localparam NUMBER_STRING_CNT = 3;
 
 // значение координат, где начинается информация о состоянии игры
-localparam bit [PIX_WIDTH-1:0] START_STATUS_X = 650;
-localparam bit [PIX_WIDTH-1:0] START_STATUS_Y = 450;
+localparam bit [PIX_WIDTH-1:0] START_STATUS_X = 670;
+localparam bit [PIX_WIDTH-1:0] START_STATUS_Y = 430;
 
 // когда заканчивается
 localparam bit [PIX_WIDTH-1:0] END_STATUS_X = START_STATUS_X + FONT_SYMBOL_X * STRING_LEN - 1;
@@ -176,7 +176,7 @@ draw_big_string
   .PIX_WIDTH                              ( PIX_WIDTH ),
 
   .START_X                                ( 250       ),
-  .START_Y                                ( 100       ),
+  .START_Y                                ( 90        ),
   
   .MSG_X                                  ( 651       ),
   .MSG_Y                                  ( 90        ),
@@ -251,10 +251,10 @@ always_comb
       vga_data_o = `COLOR_TEXT;
 
     if( draw_en[ DRAW_HEAD ] )
-      vga_data_o = 24'hFF_A5_00;
+      vga_data_o = `COLOR_HEAD;
 
     if( draw_en[ DRAW_GAME_OVER ] )
-      vga_data_o = 24'h8A_07_07;
+      vga_data_o = `COLOR_GAME_OVER; 
   end
 
 assign vga_data_en_o = |draw_en; 

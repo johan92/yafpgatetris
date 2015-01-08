@@ -1,0 +1,12 @@
+yafpgatetris (0.0.0-1) 
+  2015/01/09
+    * tetris/rtl/defs.vh,
+      tetris/rtl/draw_strings.sv,
+      tetris/rtl/draw_field.sv:
+        Changed colors, and x, y positions of strings and nbp field.
+      [johan92]
+  
+  2015/01/08
+    + : 
+        Initial commit.
+      [johan92]

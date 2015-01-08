@@ -83,7 +83,7 @@ localparam NBP_BRICK_CNT = 6;
 logic [PIX_WIDTH-1:0] nbp_field_start_x;
 logic [PIX_WIDTH-1:0] nbp_field_start_y;
 
-assign nbp_field_start_x = 'd650;
+assign nbp_field_start_x = 'd670;
 assign nbp_field_start_y = START_MAIN_FIELD_Y;
 
 logic [$clog2(NBP_BRICK_CNT)-1:0]  nbp_field_col_num;

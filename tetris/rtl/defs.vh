@@ -78,6 +78,10 @@ typedef struct packed {
 `define COLOR_BRICKS_6    24'hDE_7F_72 
 `define COLOR_BRICKS_7    24'h8A_8A_B0 
 
-`define COLOR_TEXT        24'hFF_45_00
+`define COLOR_TEXT        24'hFF_D7_00 // gold
+
+`define COLOR_HEAD        24'hFA_94_54 // some sort of orange
+
+`define COLOR_GAME_OVER   24'h8A_07_07 // blooooody red
 
 `endif
