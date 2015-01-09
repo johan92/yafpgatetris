@@ -44,15 +44,15 @@ logic [$clog2(`FIELD_ROW_CNT)-1:0] full_row_num;
 
 logic check_lines_first_tick;
 
-enum int { IDLE_S,
-           NEW_GAME_S,
-           GEN_NEW_BLOCK_S,
-           WAIT_EVENT_S,
-           CHECK_MOVE_S,
-           MAKE_MOVE_S,
-           APPEND_BLOCK_S,
-           CHECK_LINES_S,
-           GAME_OVER_S } state, next_state; 
+enum int unsigned { IDLE_S,
+                    NEW_GAME_S,
+                    GEN_NEW_BLOCK_S,
+                    WAIT_EVENT_S,
+                    CHECK_MOVE_S,
+                    MAKE_MOVE_S,
+                    APPEND_BLOCK_S,
+                    CHECK_LINES_S,
+                    GAME_OVER_S } state, next_state; 
 
 always_comb
   begin
@@ -293,7 +293,7 @@ always_comb
 
       default:
         begin
-          next_state = NEW_GAME_S;
+          next_state = IDLE_S;
         end
     endcase
   end

@@ -1,5 +1,17 @@
 yafpgatetris (0.0.0-1) 
   2015/01/09
+    * tetris/rtl/main_game_logic.sv:
+        Changed int type to int unsigned.
+        default state changed to IDLE_S.
+      [johan92]
+
+    + tetris/rtl/bin_2_bcd.sv,
+    - tetris/rtl/dec_adder.sv,
+    * tetris/rtl/tetris_stat.sv:
+        Using bin_2_bcd for stat. Removed dummy dec_adder.
+      [johan92]
+
+  2015/01/09
     * tetris/rtl/defs.vh,
       tetris/rtl/draw_strings.sv,
       tetris/rtl/draw_field.sv:

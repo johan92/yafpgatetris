@@ -85,7 +85,7 @@ main_game_logic main_logic(
   .user_event_ready_i                     ( user_event_ready_w  ),
   .user_event_rd_req_o                    ( user_event_rd_req_w ),
 
-  .game_data_o                            ( game_data_w         ),
+  .game_data_o                            ( game_data_w         )
 
 );
 
