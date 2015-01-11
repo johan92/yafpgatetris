@@ -1,4 +1,23 @@
 yafpgatetris (0.0.0-1) 
+  2015/01/11
+    * tetris/rtl/draw_tetris.sv,
+      tetris/rtl/draw_field.sv:
+        Not using signal rst_i -> deleted.
+      [johan92]
+
+    * README.md:
+        Updated README.
+      [johan92]
+
+    + KNOWN_BUGS:
+        Added list of known bugs.
+      [johan92]
+
+    * top.sv:
+        Made good reset: PS/2 controller need sync reset.
+        Other modules - needs async reset (rst_i).
+      [johan92]
+
   2015/01/09
     * tetris/rtl/main_game_logic.sv:
         Changed int type to int unsigned.

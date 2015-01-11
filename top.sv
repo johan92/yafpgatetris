@@ -36,12 +36,22 @@ assign VGA_CLK = vga_clk;
 
 logic main_reset;
 
-assign main_reset = SW[0];
+logic sw_0_d1;
+logic sw_0_d2;
+logic sw_0_d3;
+
+always_ff @( posedge CLOCK_50 )
+  begin
+    sw_0_d1 <= SW[0]; 
+    sw_0_d2 <= sw_0_d1
+    sw_0_d3 <= sw_0_d2; 
+  end
+
+assign main_reset = sw_0_d3;
 
 logic [7:0] ps2_received_data_w;    
 logic       ps2_received_data_en_w; 
 
-// FIXME: use sync reset!
 PS2_Controller ps2( 
   .CLOCK_50                               ( CLOCK_50                ),
   .reset                                  ( main_reset              ),
@@ -92,7 +102,6 @@ main_game_logic main_logic(
 draw_tetris draw_tetris(
 
   .clk_vga_i                              ( vga_clk           ),
-  .rst_i                                  ( 1'b0              ),
 
   .game_data_i                            ( game_data_w       ),
     

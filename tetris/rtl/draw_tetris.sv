@@ -3,7 +3,6 @@
 module draw_tetris(
 
   input                                 clk_vga_i,
-  input                                 rst_i,
 
   input game_data_t                     game_data_i,
   
@@ -53,7 +52,6 @@ draw_field
 ) draw_field (
 
   .clk_i                                  ( clk_vga_i           ),
-  .rst_i                                  ( rst_i               ),
 
   .pix_x_i                                ( pix_x               ),
   .pix_y_i                                ( pix_y               ),

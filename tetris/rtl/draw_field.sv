@@ -11,7 +11,6 @@ module draw_field
 )
 (
   input                                 clk_i,
-  input                                 rst_i,
 
   input  [PIX_WIDTH-1:0]                pix_x_i,
   input  [PIX_WIDTH-1:0]                pix_y_i,

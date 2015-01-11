@@ -1,0 +1,34 @@
+List of bugs:
+
+Major:
+  1. Sometimes at the end of game you get this situation:
+     ________ 
+     __TTT___
+     __ZTZ___
+     ........
+
+     So, T-block (T) at the top. 
+     Trying to add I-block, and get like this:
+    
+     ___I____ 
+     __TIT___
+     __ZTZ___
+     ........
+
+     So, top-middle T brick changed to brick from I-block...and it GAMEOVER.
+     It's not really critical, because in the field is really bad situation, but not good...
+
+Trivial limitations (not good things):
+  1. Random generation is not really good: you can get 3-4 the same block in a row.
+  2. I think, rotation for S/Z block is not realistic: it could be better.
+  3. In the end of game you get some block in the "next block window". At new game this block
+     will be first block: it's pretty.
+
+  4. Using a lot ALMs, because:
+       * field stored at D-triggers, not RAM.
+       * using vga_clk 108 MHz for 1280x1024 -> quartus added retiming registers, and duplicate logic
+       * i don't optimize for area
+
+; Logic utilization (in ALMs)     ; 3,352 / 32,070 ( 10 % )                     ;
+; Total registers                 ; 2533                                        ;
+; Total block memory bits         ; 177,664 / 4,065,280 ( 4 % )                 ;
