@@ -43,7 +43,7 @@ logic sw_0_d3;
 always_ff @( posedge CLOCK_50 )
   begin
     sw_0_d1 <= SW[0]; 
-    sw_0_d2 <= sw_0_d1
+    sw_0_d2 <= sw_0_d1;
     sw_0_d3 <= sw_0_d2; 
   end
 
