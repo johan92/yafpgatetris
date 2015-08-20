@@ -28,14 +28,17 @@ typedef enum { MOVE_DOWN,
 
 // ******* Tetris Settings *******
 
-`define  FIELD_COL_CNT           10
-`define  FIELD_ROW_CNT           20
+`define  FIELD_COL_CNT           8 
+`define  FIELD_ROW_CNT           14 
 `define  FIELD_COL_CNT_WIDTH     $clog2( `FIELD_COL_CNT )
 `define  FIELD_ROW_CNT_WIDTH     $clog2( `FIELD_ROW_CNT )
 
 // увеличиваем на два, чтобы по границам раставить "заполненные" блоки
 `define FIELD_EXT_COL_CNT       ( `FIELD_COL_CNT + 2 )
 `define FIELD_EXT_ROW_CNT       ( `FIELD_ROW_CNT + 2 )
+
+`define FIELD_EXT_COL_CNT_WIDTH $clog2( `FIELD_EXT_COL_CNT + 2 )
+`define FIELD_EXT_ROW_CNT_WIDTH $clog2( `FIELD_EXT_ROW_CNT + 2 )
 
 `define TETRIS_COLORS_CNT       8
 `define TETRIS_COLORS_WIDTH     $clog2( `TETRIS_COLORS_CNT )

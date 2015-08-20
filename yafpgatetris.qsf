@@ -37,12 +37,12 @@
 # -------------------------------------------------------------------------- #
 
 
-set_global_assignment -name FAMILY "Cyclone V"
-set_global_assignment -name DEVICE 5CSEMA5F31C6
+set_global_assignment -name FAMILY "Cyclone III"
+set_global_assignment -name DEVICE EP3C5E144C8
 set_global_assignment -name TOP_LEVEL_ENTITY top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "19:27:23  DECEMBER 27, 2014"
-set_global_assignment -name LAST_QUARTUS_VERSION 14.1.0
+set_global_assignment -name LAST_QUARTUS_VERSION 13.0
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -55,122 +55,77 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
+set_location_assignment PIN_22 -to clk_25m_i
+
+set_location_assignment PIN_124 -to r_o[2]
+set_location_assignment PIN_125 -to r_o[1]
+set_location_assignment PIN_126 -to r_o[0]
+
+set_location_assignment PIN_2 -to g_o[2]
+set_location_assignment PIN_3 -to g_o[1]
+set_location_assignment PIN_4 -to g_o[0]
+
+set_location_assignment PIN_32 -to b_o[2]
+set_location_assignment PIN_33 -to b_o[1]
+set_location_assignment PIN_34 -to b_o[0]
+  
+set_location_assignment PIN_10 -to hs_o
+set_location_assignment PIN_11 -to vs_o
+
+set_location_assignment PIN_132 -to o_keyb_Y[7]
+set_location_assignment PIN_133 -to o_keyb_Y[6]
+set_location_assignment PIN_136 -to o_keyb_Y[5]
+set_location_assignment PIN_137 -to o_keyb_Y[4]
+set_location_assignment PIN_141 -to o_keyb_Y[3]
+set_location_assignment PIN_142 -to o_keyb_Y[2]
+set_location_assignment PIN_143 -to o_keyb_Y[1]
+set_location_assignment PIN_144 -to o_keyb_Y[0]
+
+set_location_assignment PIN_135 -to i_keyb_X[2]
+set_location_assignment PIN_138 -to i_keyb_X[1]
+set_location_assignment PIN_1 -to i_keyb_X[0]
+
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_keyb_X[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_keyb_X[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to i_keyb_X[2]
+
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[0]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[1]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[2]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[3]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[4]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[5]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[6]
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to o_keyb_Y[7]
+
 #============================================================
 # VGA
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_B[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_BLANK_N
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_CLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_G[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_HS
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_R[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_SYNC_N
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to VGA_VS
 
 
-set_location_assignment PIN_B13 -to VGA_B[0]
-set_location_assignment PIN_G13 -to VGA_B[1]
-set_location_assignment PIN_H13 -to VGA_B[2]
-set_location_assignment PIN_F14 -to VGA_B[3]
-set_location_assignment PIN_H14 -to VGA_B[4]
-set_location_assignment PIN_F15 -to VGA_B[5]
-set_location_assignment PIN_G15 -to VGA_B[6]
-set_location_assignment PIN_J14 -to VGA_B[7]
-set_location_assignment PIN_F10 -to VGA_BLANK_N
-set_location_assignment PIN_A11 -to VGA_CLK
-set_location_assignment PIN_J9 -to VGA_G[0]
-set_location_assignment PIN_J10 -to VGA_G[1]
-set_location_assignment PIN_H12 -to VGA_G[2]
-set_location_assignment PIN_G10 -to VGA_G[3]
-set_location_assignment PIN_G11 -to VGA_G[4]
-set_location_assignment PIN_G12 -to VGA_G[5]
-set_location_assignment PIN_F11 -to VGA_G[6]
-set_location_assignment PIN_E11 -to VGA_G[7]
-set_location_assignment PIN_B11 -to VGA_HS
-set_location_assignment PIN_A13 -to VGA_R[0]
-set_location_assignment PIN_C13 -to VGA_R[1]
-set_location_assignment PIN_E13 -to VGA_R[2]
-set_location_assignment PIN_B12 -to VGA_R[3]
-set_location_assignment PIN_C12 -to VGA_R[4]
-set_location_assignment PIN_D12 -to VGA_R[5]
-set_location_assignment PIN_E12 -to VGA_R[6]
-set_location_assignment PIN_F13 -to VGA_R[7]
-set_location_assignment PIN_C10 -to VGA_SYNC_N
-set_location_assignment PIN_D11 -to VGA_VS
 
 #============================================================
 # CLOCK
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50
 
-set_location_assignment PIN_AF14 -to CLOCK_50
 
 #============================================================
 # SW
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[5]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[8]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[9]
 
-set_location_assignment PIN_AB12 -to SW[0]
-set_location_assignment PIN_AC12 -to SW[1]
-set_location_assignment PIN_AF9 -to SW[2]
-set_location_assignment PIN_AF10 -to SW[3]
-set_location_assignment PIN_AD11 -to SW[4]
-set_location_assignment PIN_AD12 -to SW[5]
-set_location_assignment PIN_AE11 -to SW[6]
-set_location_assignment PIN_AC9 -to SW[7]
-set_location_assignment PIN_AD10 -to SW[8]
-set_location_assignment PIN_AE12 -to SW[9]
 
 #============================================================
 # PS2
 #============================================================
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_CLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_CLK2
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_DAT
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to PS2_DAT2
 
 
-set_location_assignment PIN_AD7 -to PS2_CLK
-set_location_assignment PIN_AD9 -to PS2_CLK2
-set_location_assignment PIN_AE7 -to PS2_DAT
-set_location_assignment PIN_AE9 -to PS2_DAT2
 
 set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
-set_global_assignment -name OPTIMIZATION_MODE "AGGRESSIVE PERFORMANCE"
+#set_global_assignment -name OPTIMIZATION_MODE "AGGRESSIVE PERFORMANCE"
 set_global_assignment -name ROUTER_TIMING_OPTIMIZATION_LEVEL MAXIMUM
 set_global_assignment -name PLACEMENT_EFFORT_MULTIPLIER 4.0
 set_global_assignment -name OPTIMIZE_HOLD_TIMING "ALL PATHS"
@@ -188,14 +143,36 @@ set_global_assignment -name SYSTEMVERILOG_FILE tetris/rtl/draw_strings.sv
 set_global_assignment -name VERILOG_FILE tetris/rtl/user_input_fifo.v
 set_global_assignment -name SYSTEMVERILOG_FILE tetris/rtl/user_input.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tetris/rtl/gen_next_block.sv
-set_global_assignment -name VERILOG_FILE ip_cores/ps2_keyboard/PS2_Controller.v
-set_global_assignment -name VERILOG_FILE ip_cores/ps2_keyboard/Altera_UP_PS2_Data_In.v
-set_global_assignment -name VERILOG_FILE ip_cores/ps2_keyboard/Altera_UP_PS2_Command_Out.v
+#set_global_assignment -name VERILOG_FILE ip_cores/ps2_keyboard/PS2_Controller.v
+#set_global_assignment -name VERILOG_FILE ip_cores/ps2_keyboard/Altera_UP_PS2_Data_In.v
+#set_global_assignment -name VERILOG_FILE ip_cores/ps2_keyboard/Altera_UP_PS2_Command_Out.v
 set_global_assignment -name SYSTEMVERILOG_FILE tetris/rtl/main_game_logic.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tetris/rtl/draw_field.sv
 set_global_assignment -name VERILOG_FILE ip_cores/vga/vga_time_generator.v
-set_global_assignment -name VERILOG_FILE megafunctions/pll.v -library pll
-set_global_assignment -name QIP_FILE megafunctions/pll.qip
+set_global_assignment -name VERILOG_FILE megafunctions/pll_c3.v
+set_global_assignment -name AHDL_FILE ip_cores/et_kbd/keyb_ctrl.tdf
 set_global_assignment -name SDC_FILE yafpgatetris.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE top.sv
+
+set_global_assignment -name TIMEQUEST_DO_CCPP_REMOVAL ON
+
+
+
+#set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+#set_global_assignment -name SIGNALTAP_FILE stp1.stp
+set_global_assignment -name SLD_FILE /home/ish/src/chaos/yafpgatetris_b3et/trunk/stp1_auto_stripped.stp
+
+set_global_assignment -name CYCLONEII_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
+set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
+set_global_assignment -name REMOVE_REDUNDANT_LOGIC_CELLS ON
+set_global_assignment -name MUX_RESTRUCTURE ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC_FOR_AREA ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_MAP_LOGIC_TO_MEMORY_FOR_AREA ON
+set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
+set_global_assignment -name ROUTER_CLOCKING_TOPOLOGY_ANALYSIS ON
+set_global_assignment -name FITTER_AGGRESSIVE_ROUTABILITY_OPTIMIZATION ALWAYS
+set_global_assignment -name OPTIMIZE_TIMING OFF
+set_global_assignment -name PHYSICAL_SYNTHESIS_EFFORT EXTRA
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

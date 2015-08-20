@@ -40,7 +40,7 @@ logic [STRING_CNT-1:0][STRING_LEN-1:0][SYMBOL_WIDTH-1:0]        strings;
 logic [0:5][SYMBOL_WIDTH-1:0]                                   string_score;
 logic [0:5][SYMBOL_WIDTH-1:0]                                   string_lines;
 logic [0:5][SYMBOL_WIDTH-1:0]                                   string_level;
-logic [0:11][SYMBOL_WIDTH-1:0]                                  string_new_game;
+logic [0:12][SYMBOL_WIDTH-1:0]                                  string_new_game;
 
 logic [NUMBER_STRING_CNT-1:0][NUMBER_LEN-1:0][SYMBOL_WIDTH-1:0] number_strings;
 
@@ -56,7 +56,7 @@ assign string_level = { 7'h4c, 7'h65, 7'h76, 7'h65, 7'h6c, 7'h3a };
 //"New Game (N)"
 assign string_new_game = { 7'h4e, 7'h65, 7'h77, 7'h20, 
                            7'h47, 7'h61, 7'h6d, 7'h65, 7'h20,
-                           7'h28, 7'h4e, 7'h29 }; 
+                           7'h28, 7'h46, 7'h34, 7'h29 }; 
 
 always_comb
   begin

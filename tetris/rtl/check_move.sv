@@ -67,8 +67,8 @@ always_ff @( posedge clk_i )
           end
       end
 
-logic signed [`FIELD_COL_CNT_WIDTH:0] check_field_col;
-logic signed [`FIELD_ROW_CNT_WIDTH:0] check_field_row;
+logic signed [`FIELD_EXT_COL_CNT_WIDTH:0] check_field_col;
+logic signed [`FIELD_EXT_ROW_CNT_WIDTH:0] check_field_row;
 
 logic signed [1:0] x_move;
 logic signed [1:0] y_move;

@@ -1,0 +1,121 @@
+%
+Схема клавиатуры выглядит таким образом:
+
+--> Y[0] -- K[0]  K[1]  K[2]  K[3]
+--> Y[1] -- K[4]  K[5]  K[6]  K[7]
+--> Y[2] -- K[8]  K[9]  K[a]  K[b]
+--> Y[3] -- K[c]  K[d]  K[e]  K[f]          
+             |     |     |     |
+             X[0]  X[1]  X[2]  X[3]
+             |     |     |     |
+             |     |     |     |
+             V     V     V     V
+
+Y[j] - это выходы контроллера (должны быть Open Drain)
+X[i] - это входы контроллера (должны быть Pull-up)
+
+!! Кнопки K[c] и K[a] аппаратно не заведены.
+Поэтому в проекте они занулены.
+
+При нажатии кнопки K[k] на соответствующий Х подается сигнал с 
+соответствующего Y.
+На выходы Y подаются стробы со сдвигом по фазе:
+
+Y[0] _______|---|___________|---|_______
+Y[1] ___________|---|___________|---|___
+Y[2] _______________|---|_______________
+Y[3] ___________________|---|___________
+
+Импульсы тактируются частотой ~ 100 Hz
+%
+
+INCLUDE "lpm_counter.inc";
+
+PARAMETERS (
+  WIDTH = 4  -- count of interrupt
+);
+
+CONSTANT KEY_CNT = WIDTH * WIDTH;
+
+SUBDESIGN keyb_ctrl
+(
+  iX[WIDTH-1..0],
+  iClk,        -- ~100 hz
+  iIsrRdPulse,
+  ikey_en[KEY_CNT-1..0]  -- разрешение кнопок по маске 
+  : INPUT;
+
+  oY[WIDTH-1..0],
+  oK[KEY_CNT-1..0],  -- битовая комбинация, соответствующая нажатым кнопкам
+  oInt     
+  : OUTPUT;
+)
+VARIABLE
+  -- сигнал, определяющий, нажата ли кнопка i в данный момент
+  key[KEY_CNT-1..0] : NODE;
+
+  -- сигнал, определяющий, нажата ли хотя бы одна кнопка  
+  any_key : NODE;
+
+  -- строб, генерируемый по положительному фронту сигнала any_key
+  just_pressed : NODE;
+
+  -- строб, генерируемый по отрицательному фронту сигнала any_key
+  just_released : NODE;
+  
+  -- сигнал, указывающий на необходимость генерации повторного прерывания
+  need_repeat : NODE;
+
+  rep_cnt : lpm_counter WITH (LPM_WIDTH = 7, LPM_AVALUE = 2^6 - 2^3);
+  cnt : lpm_counter WITH (LPM_WIDTH = CEIL(LOG2(WIDTH)), LPM_MODULUS = WIDTH);
+  -- внутренний сигнал прерывания
+  int : NODE;
+
+BEGIN
+  DEFAULTS
+    any_key = gnd;
+    int = gnd;
+  END DEFAULTS;
+
+  FOR i IN 0 TO (WIDTH-1) GENERATE
+    FOR j IN 0 TO (WIDTH-1) GENERATE
+--      IF ( ((j*WIDTH + i) != 10) AND ((j*WIDTH + i) != 12)) GENERATE
+        key[j*WIDTH + i] = dffe(.d = !iX[i], .ena = !oY[j], .clk = iClk) &
+                           ikey_en[j*WIDTH + i];
+        any_key = key[j*WIDTH + i] & ikey_en[j*WIDTH + i];
+--      ELSE GENERATE
+        -- 10 и 12 кнопки не существуют
+--      key[j*WIDTH + i] = gnd;
+--      END GENERATE;
+    END GENERATE;
+  END GENERATE;
+
+  just_pressed = any_key & !dff(any_key, iClk,,);
+  just_released = !any_key & dff(any_key, iClk,,);
+
+  need_repeat = srff(just_pressed, just_released, iClk,,);
+  
+  int = need_repeat & rep_cnt.q[6];
+  int = !need_repeat & just_pressed;
+
+-- rep_cnt
+  rep_cnt.clock = iClk;
+  rep_cnt.sclr  = just_pressed;
+  rep_cnt.aset  = iIsrRdPulse & !dff(just_pressed, iClk,,);
+
+-- cnt
+  cnt.clock = !iClk;
+
+-- формируем oY
+  FOR i IN 0 TO (WIDTH-1) GENERATE
+    oY[i] = cnt.q[] != i; 
+  END GENERATE;
+
+-- формируем прерывание на контроллер из
+-- внутреннего прерывания
+  oInt = dff(int, iClk, !iIsrRdPulse, );
+
+-- oK
+  oK[] = key[];
+
+END;

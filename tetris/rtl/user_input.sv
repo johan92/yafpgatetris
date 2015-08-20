@@ -2,11 +2,10 @@
 
 module user_input(
   input               rst_i,
-
-  input               ps2_clk_i,
   
-  input         [7:0] ps2_key_data_i,
-  input               ps2_key_data_en_i,
+  input               key_clk_i,
+  input [63:0]        key_i,
+  input               key_en_i,
 
   input               main_logic_clk_i,
 
@@ -16,72 +15,71 @@ module user_input(
 
 );
 
-logic [1:0][7:0] ps2_key_data_sr;
-logic            ps2_key_data_en_d1;
+logic key_en_d1;
+logic key_en_d2;
+logic key_en_d3;
+logic key_en_stb;
 
-always_ff @( posedge ps2_clk_i or posedge rst_i )
-  if( rst_i )
-    begin
-      ps2_key_data_sr <= '0;
-    end
-  else
-    if( ps2_key_data_en_i )
-      begin
-        ps2_key_data_sr <= { ps2_key_data_sr[0], ps2_key_data_i };
-      end
+always_ff @( posedge key_clk_i )
+  begin
+    key_en_d1 <= key_en_i;
+    key_en_d2 <= key_en_d1;
+    key_en_d3 <= key_en_d2;
+  end
 
-always_ff @( posedge ps2_clk_i or posedge rst_i )
-  if( rst_i )
-    ps2_key_data_en_d1 <= '0;
-  else
-    ps2_key_data_en_d1 <= ps2_key_data_en_i;
+assign key_en_stb = key_en_d2 && !key_en_d3;
 
 user_event_t wr_event;
 logic        wr_event_val;
-logic        break_event;
 
-assign break_event = ( ps2_key_data_sr[1] == 8'hF0 );
+`define KEY_DOWN  33
+`define KEY_LEFT  40
+`define KEY_RIGHT 42
+`define KEY_UP    41
+`define KEY_F4    58
 
 always_comb
   begin
-    wr_event_val = 1'b1;
+    wr_event     = EV_DOWN;
+    wr_event_val = 1'b0;
+    
+    if( key_i[`KEY_DOWN] )
+      begin
+        wr_event = EV_DOWN;
+        wr_event_val = 1'b1;
+      end
 
-    casex( ps2_key_data_sr )
-      { 8'hxx, `SCAN_CODE_N }:
-        begin
-          wr_event     = EV_NEW_GAME;
-          wr_event_val = !break_event;
-        end
-      `SCAN_CODE_ARROW_UP:
-        begin
-          wr_event     = EV_ROTATE; 
-        end
-      `SCAN_CODE_ARROW_LEFT:
-        begin
-          wr_event     = EV_LEFT; 
-        end
-      `SCAN_CODE_ARROW_RIGHT:
-        begin
-          wr_event     = EV_RIGHT;
-        end
-      `SCAN_CODE_ARROW_DOWN:
-        begin
-          wr_event     = EV_DOWN;
-        end
-      default:
-        begin
-          // на самом деле не так принципиально...
-          wr_event     = EV_DOWN; 
-          wr_event_val = 1'b0;
-        end
-    endcase
+    if( key_i[`KEY_UP] )
+      begin
+        wr_event = EV_ROTATE;
+        wr_event_val = 1'b1;
+      end
+    
+    if( key_i[`KEY_LEFT] )
+      begin
+        wr_event = EV_LEFT;
+        wr_event_val = 1'b1;
+      end
+    
+    if( key_i[`KEY_RIGHT] )
+      begin
+        wr_event = EV_RIGHT;
+        wr_event_val = 1'b1;
+      end
+    
+    if( key_i[`KEY_F4] )
+      begin
+        wr_event = EV_NEW_GAME;
+        wr_event_val = 1'b1;
+      end
+
   end
 
 logic fifo_wr_req;
 logic fifo_empty;
 logic fifo_full;
 
-assign fifo_wr_req = wr_event_val && ps2_key_data_en_d1 && ( !fifo_full ); 
+assign fifo_wr_req = wr_event_val && key_en_stb && ( !fifo_full ); 
 
 user_input_fifo 
 #( 
@@ -89,7 +87,7 @@ user_input_fifo
 ) user_input_fifo (
   .aclr                                   ( rst_i               ),
   
-  .wrclk                                  ( ps2_clk_i           ),
+  .wrclk                                  ( key_clk_i          ),
   .wrreq                                  ( fifo_wr_req         ),
   .data                                   ( wr_event            ),
 

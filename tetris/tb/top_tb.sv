@@ -44,17 +44,17 @@ initial
     user_event       = EV_DOWN;
     user_event_ready = 1'b0;
 
-    event_queue.push_back( EV_ENTER );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
-    event_queue.push_back( EV_LEFT  );
+    event_queue.push_back( EV_NEW_GAME );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
+    event_queue.push_back( EV_RIGHT  );
     event_queue.push_back( EV_ROTATE  );
     event_queue.push_back( EV_ROTATE  );
     event_queue.push_back( EV_ROTATE  );

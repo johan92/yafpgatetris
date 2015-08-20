@@ -136,6 +136,7 @@ always_comb
 
 assign cur_block_data = cur_block.data[ cur_block.rotation ];
 
+
 always_comb
   begin
     field_with_cur_block = field_with_color;

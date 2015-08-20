@@ -1,57 +1,37 @@
 `include "./tetris/rtl/defs.vh"
 
+`define XKEYW 3  // width of keyboard
+`define YKEYW 8  // length of keyboard
+
+`define KEY_CNT ( `YKEYW * `YKEYW ) 
+
 module top(
+  input        clk_25m_i,
+
+  output [2:0] r_o,
+  output [2:0] g_o,
+  output [2:0] b_o,
   
-  input              CLOCK_50,
+  output       hs_o,
+  output       vs_o,
 
-  input       [9:0]  SW,
-  
-
-  ///////// PS2 /////////
-  inout              PS2_CLK,
-  inout              PS2_DAT,
-
-  ///////// VGA /////////
-  output      [7:0]  VGA_B,
-  output             VGA_BLANK_N,
-  output             VGA_CLK,
-  output      [7:0]  VGA_G,
-  output             VGA_HS,
-  output      [7:0]  VGA_R,
-  output             VGA_SYNC_N, // not used (?)
-  output             VGA_VS
-
+  inout [`YKEYW-1:0] o_keyb_Y, // выходы на контакты клавиатуры объявлены BIDIR потому что должны быть open-drain
+  input [`XKEYW-1:0] i_keyb_X  // входы с контактов клавиатуры должны быть подтянуты к VCC
 );
 
 logic vga_clk;
 
-pll pll(
-  .refclk                                 ( CLOCK_50          ),
-  .rst                                    ( 1'b0              ),
-  .outclk_0                               (                   ),
-  .outclk_1                               ( vga_clk           )
+pll_c3 pll(
+  .areset                                 ( ),
+  .locked                                 ( ),
+  .inclk0                                 ( clk_25m_i         ),
+  .c0                                     ( vga_clk           )
 );
-
-assign VGA_CLK = vga_clk;
-
-logic main_reset;
-
-logic sw_0_d1;
-logic sw_0_d2;
-logic sw_0_d3;
-
-always_ff @( posedge CLOCK_50 )
-  begin
-    sw_0_d1 <= SW[0]; 
-    sw_0_d2 <= sw_0_d1;
-    sw_0_d3 <= sw_0_d2; 
-  end
-
-assign main_reset = sw_0_d3;
 
 logic [7:0] ps2_received_data_w;    
 logic       ps2_received_data_en_w; 
 
+/*
 PS2_Controller ps2( 
   .CLOCK_50                               ( CLOCK_50                ),
   .reset                                  ( main_reset              ),
@@ -63,18 +43,21 @@ PS2_Controller ps2(
   .received_data                          ( ps2_received_data_w     ),
   .received_data_en                       ( ps2_received_data_en_w  )
 );
+*/
 
 logic        user_event_rd_req_w;
 user_event_t user_event_w;
 logic        user_event_ready_w;
 
+logic [`KEY_CNT-1:0] key_mask;
+logic               key_int;
+
 user_input user_input(
   .rst_i                                  ( main_reset              ),
 
-  .ps2_clk_i                              ( CLOCK_50                ),
-    
-  .ps2_key_data_i                         ( ps2_received_data_w     ),
-  .ps2_key_data_en_i                      ( ps2_received_data_en_w  ),
+  .key_clk_i                              ( clk_25m_i               ),
+  .key_i                                  ( key_mask                ),
+  .key_en_i                               ( key_int                 ),
 
   .main_logic_clk_i                       ( vga_clk                 ),
 
@@ -99,6 +82,13 @@ main_game_logic main_logic(
 
 );
 
+logic       vga_hs_w;
+logic       vga_vs_w;
+logic       vga_de_w;
+logic [7:0] vga_r_w;
+logic [7:0] vga_g_w;
+logic [7:0] vga_b_w;
+
 draw_tetris draw_tetris(
 
   .clk_vga_i                              ( vga_clk           ),
@@ -106,13 +96,63 @@ draw_tetris draw_tetris(
   .game_data_i                            ( game_data_w       ),
     
     // VGA interface
-  .vga_hs_o                               ( VGA_HS            ),
-  .vga_vs_o                               ( VGA_VS            ),
-  .vga_de_o                               ( VGA_BLANK_N       ),
-  .vga_r_o                                ( VGA_R             ),
-  .vga_g_o                                ( VGA_G             ),
-  .vga_b_o                                ( VGA_B             )
+  .vga_hs_o                               ( vga_hs_w           ),
+  .vga_vs_o                               ( vga_vs_w           ),
+  .vga_de_o                               ( vga_de_w           ),
+  .vga_r_o                                ( vga_r_w            ),
+  .vga_g_o                                ( vga_g_w            ),
+  .vga_b_o                                ( vga_b_w            )
 
+);
+
+assign r_o = ( vga_de_w ) ? vga_r_w[7:5] : ( '0 );
+assign g_o = ( vga_de_w ) ? vga_g_w[7:5] : ( '0 );
+assign b_o = ( vga_de_w ) ? vga_b_w[7:5] : ( '0 );
+
+assign hs_o = vga_hs_w;
+assign vs_o = vga_vs_w;
+
+
+
+logic [`KEY_CNT-1:0] key_en;
+logic [`KEY_CNT-1:0] key_oY;
+
+logic clk_100hz;
+logic [31:0] clk_100hz_cnt;
+
+always_ff @( posedge clk_25m_i )
+  if( clk_100hz_cnt == ( 25000000/200 - 1 ) )
+    begin
+      clk_100hz     <= ~clk_100hz;
+      clk_100hz_cnt <= '0;
+    end
+  else
+    begin
+      clk_100hz_cnt <= clk_100hz_cnt + 1'd1;
+    end
+
+assign key_en = 64'h0707070707070707;
+
+genvar g;
+generate 
+  for( g = 0; g < `YKEYW; g++ )
+  begin : g_y
+    OPNDRN( key_oY[g], o_keyb_Y[g] );
+  end
+endgenerate
+
+
+keyb_ctrl #( 
+  .WIDTH ( `YKEYW ) 
+) kbd (
+  .iClk                                   ( clk_100hz        ),
+  .iX                                     ( i_keyb_X         ),
+  .iIsrRdPulse                            ( user_event_rd_req_w ),
+  .ikey_en                                ( key_en           ),
+
+  .oY                                     ( key_oY           ),
+  .oK                                     ( key_mask         ),
+  .oInt                                   ( key_int          )
 );
 
 endmodule
