@@ -18,8 +18,8 @@ module draw_field
   input  game_data_t                    game_data_i,
 
   // выходные данные RGB
-  output [23:0]                         vga_data_o,
-  output                                vga_data_en_o
+  output logic [23:0]                   vga_data_o,
+  output logic                          vga_data_en_o
 
 );
 
@@ -186,7 +186,10 @@ always_comb
         end
   end
 
-assign vga_data_o    = vga_data;
-assign vga_data_en_o = main_field_in_field || nbp_field_in_field;
+always_ff @( posedge clk_i )
+  begin
+    vga_data_o    <= vga_data;
+    vga_data_en_o <= main_field_in_field || nbp_field_in_field;
+  end
 
 endmodule

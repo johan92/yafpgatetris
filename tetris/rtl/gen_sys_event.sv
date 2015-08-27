@@ -8,9 +8,9 @@ module gen_sys_event(
 
 );
 // going from max to min value...
-localparam SYS_EVENT_PERIOD_MAX  = 'd67_000_000; 
-localparam SYS_EVENT_PERIOD_MIN  = 'd10_000_000;
-localparam SYS_EVENT_PERIOD_STEP = 'd4_000_000; 
+localparam SYS_EVENT_PERIOD_MAX  = 'd13_400_000; 
+localparam SYS_EVENT_PERIOD_MIN  = 'd2_000_000;
+localparam SYS_EVENT_PERIOD_STEP = 'd800_000; 
 
 logic [31:0] sys_counter      = '0;
 logic [31:0] sys_event_period = SYS_EVENT_PERIOD_MAX;

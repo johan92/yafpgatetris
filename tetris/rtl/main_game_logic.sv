@@ -334,13 +334,13 @@ always_ff @( posedge clk_i or posedge rst_i )
     end
 
 
-always_comb
+always_ff @( posedge clk_i )
   begin
     for( int col = 0; col < `FIELD_COL_CNT; col++ )
       begin
         for( int row = 0; row < `FIELD_ROW_CNT; row++ )
           begin
-            game_data_o.field[row][col] = field_with_cur_block[ row + 1 ][ col + 1 ];
+            game_data_o.field[row][col] <= field_with_cur_block[ row + 1 ][ col + 1 ];
           end
       end
   end

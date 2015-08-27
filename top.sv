@@ -59,7 +59,9 @@ user_input user_input(
   .key_i                                  ( key_mask                ),
   .key_en_i                               ( key_int                 ),
 
-  .main_logic_clk_i                       ( vga_clk                 ),
+  //.main_logic_clk_i                       ( vga_clk                 ),
+
+  .main_logic_clk_i                       ( clk_25m_i               ),
 
   .user_event_rd_req_i                    ( user_event_rd_req_w     ),
   .user_event_o                           ( user_event_w            ),
@@ -71,7 +73,8 @@ game_data_t game_data_w;
 
 main_game_logic main_logic(
 
-  .clk_i                                  ( vga_clk             ),
+  //.clk_i                                  ( vga_clk             ),
+  .clk_i                                  ( clk_25m_i           ),
   .rst_i                                  ( main_reset          ),
 
   .user_event_i                           ( user_event_w        ),

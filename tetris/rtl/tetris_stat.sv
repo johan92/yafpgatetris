@@ -14,6 +14,21 @@ module tetris_stat(
   output logic            level_changed_o
 
 );
+logic  [2:0] disappear_lines_cnt_d1;
+logic        update_stat_en_d1;
+
+always_ff @( posedge clk_i )
+  if( srst_i )
+    begin
+      disappear_lines_cnt_d1 <= '0; 
+      update_stat_en_d1      <= 1'b0;
+    end
+  else
+    begin
+      disappear_lines_cnt_d1 <= disappear_lines_cnt_i; 
+      update_stat_en_d1      <= update_stat_en_i;
+    end
+
 
 // ******* SCORE *******
 
@@ -35,7 +50,7 @@ logic [SCORE_DIGITS-1:0][3:0]      score_hundred_bcd;
 
 always_comb
   begin
-    next_score_hundred = score_hundred + add_score_pos[ disappear_lines_cnt_i ];
+    next_score_hundred = score_hundred + add_score_pos[ disappear_lines_cnt_d1 ];
 
     if( next_score_hundred > MAX_SCORE_IN_HUNDRED )
       next_score_hundred = MAX_SCORE_IN_HUNDRED;
@@ -45,7 +60,7 @@ always_ff @( posedge clk_i )
   if( srst_i )
     score_hundred <= 'd0;
   else
-    if( update_stat_en_i )
+    if( update_stat_en_d1 )
       score_hundred <= next_score_hundred[SCORE_IN_HUNDRED_WIDTH-1:0]; 
 
 bin_2_bcd
@@ -72,7 +87,7 @@ logic [LINES_DIGITS-1:0][3:0]   lines_cnt_bcd;
 
 always_comb
   begin
-    next_lines_cnt = lines_cnt + disappear_lines_cnt_i;
+    next_lines_cnt = lines_cnt + disappear_lines_cnt_d1;
 
     if( next_lines_cnt > MAX_LINES_CNT )
       next_lines_cnt = MAX_LINES_CNT;
@@ -82,7 +97,7 @@ always_ff @( posedge clk_i )
   if( srst_i )
     lines_cnt <= '0;
   else
-    if( update_stat_en_i )
+    if( update_stat_en_d1 )
       lines_cnt <= next_lines_cnt[LINES_WIDTH-1:0];
 
 bin_2_bcd

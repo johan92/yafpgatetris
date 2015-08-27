@@ -29,7 +29,7 @@ typedef enum { MOVE_DOWN,
 // ******* Tetris Settings *******
 
 `define  FIELD_COL_CNT           8 
-`define  FIELD_ROW_CNT           14 
+`define  FIELD_ROW_CNT           16 
 `define  FIELD_COL_CNT_WIDTH     $clog2( `FIELD_COL_CNT )
 `define  FIELD_ROW_CNT_WIDTH     $clog2( `FIELD_ROW_CNT )
 
